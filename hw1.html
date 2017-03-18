@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<style>
+#l0{
+  background:pink;
+}
+#l1{
+  background:yellow;
+}
+#l2{
+  background:blue;
+}
+#l3{
+  background:gray;
+}
+#l4{
+  background:red;
+}
+#light0 { 
+   position: absolute; 
+   top: 120px; 
+   left: 98px; 
+   width: 12px;
+   height: 12px;
+   -webkit-border-radius: 25px;
+   -moz-border-radius: 25px;
+   border-radius: 25px;
+}
+#light1 { 
+   position: absolute; 
+   top: 190px; 
+   left: 110px; 
+   width: 12px;
+   height: 12px;
+   -webkit-border-radius: 25px;
+   -moz-border-radius: 25px;
+   border-radius: 25px;
+}
+#light2 { 
+   position: absolute; 
+   top: 170px; 
+   left: 60px; 
+   width: 12px;
+   height: 12px;
+   -webkit-border-radius: 25px;
+   -moz-border-radius: 25px;
+   border-radius: 25px;
+}
+#light3 { 
+   position: absolute; 
+   top: 180px; 
+   left: 70px; 
+   width: 12px;
+   height: 12px;
+   -webkit-border-radius: 25px;
+   -moz-border-radius: 25px;
+   border-radius: 25px;
+}
+#light4 { 
+   position: absolute; 
+   top: 140px; 
+   left: 90px; 
+   width: 12px;
+   height: 12px;
+   -webkit-border-radius: 25px;
+   -moz-border-radius: 25px;
+   border-radius: 25px;
+}
+table tr td {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%
+}
+
+.green {
+  background: green;
+}
+.green1 {
+  background: rgb(0,190,0);
+}
+.brown {
+  background: brown;
+  }
+
+</style>
+</head>
+
+<body> 
+<a href="https://jsfiddle.net/weipohao/rvso1dbu/">hw1.jsfiddle</a>
+<button id='touch' style = "float:left">POWER</button>
+<div style="clear:both"></div>
+
+<button id='l0' style="width:5%;height:20px;float:left">
+  </button>
+<button id='l1' style="width:5%;height:20px;float:left">
+  </button>
+<button id='l2' style="width:5%;height:20px;float:left">
+  </button>
+<button id='l3' style="width:5%;height:20px;float:left">
+  </button>
+<button id='l4' style="width:5%;height:20px;float:left">
+  </button>
+  
+    <div style="clear:both"></div>
+  
+<div id='light0' //display:inline>
+  </div>
+<div id='light1' >
+  </div>
+<div id='light2' >
+ </div>
+<div id='light3' >
+ </div>
+<div id='light4' >
+  </div>
+
+
+<div style="clear:both"></div>
+
+<div id='turn' style="width:10%;float:left"></div>
+
+
+<div style="clear:both"></div>
+
+
+  
+
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script>
+var main = false;
+
+this.main = function(){
+main = !main; 
+}
+
+function Light(name) {
+  if (name === undefined)
+    Light.serial = Light.serial !== undefined ? ++Light.serial : 0;
+  this.name = name || 'f' + Light.serial;
+//-------------------------------------------------------------
+  var status = true;
+  var flag = false;
+
+  this.off = function() {
+    clearInterval(timer);
+    power = false;
+    status = false;
+  }
+
+  this.onoff = function() {
+    flag = !flag;
+    if (flag === true) {
+      $('#touch').html('POWER ON');
+
+    } else {
+      $('#light0').css('backgroundColor', 'rgb(190,0,110)');
+      $('#touch').html('POWER OFF');
+      this.off();
+    }
+  }
+  this.onoff1 = function() {
+    flag = !flag;
+    if (flag === true) {} else {
+      $('#light1').css('backgroundColor', 'orange');
+      this.off();
+    }
+  }
+  this.onoff2 = function() {
+    flag = !flag;
+    if (flag === true) {} else {
+      $('#light2').css('backgroundColor', 'rgb(0,0,120)');
+      this.off();
+    }
+  }
+  this.onoff3 = function() {
+    flag = !flag;
+    if (flag === true) {} else {
+      $('#light3').css('backgroundColor', 'gray');
+      this.off();
+    }
+  }
+  this.onoff4 = function() {
+    flag = !flag;
+    if (flag === true) {} else {
+      $('#light4').css('backgroundColor', 'rgb(120,0,0)');
+      this.off();
+    }
+  }
+
+//-------------------------------------------------------
+
+  this.toggle = function() {
+    status = !status;
+    if (status === true) {
+      $('#light0').css('backgroundColor', 'rgb(255,0,230)');
+    } else {
+      $('#light0').css('backgroundColor', 'rgb(190,0,110)');
+    }
+  }
+  this.toggle1 = function() {
+    status = !status;
+    if (status === true) {
+      $('#light1').css('backgroundColor', 'yellow');
+    } else {
+      $('#light1').css('backgroundColor', 'orange');
+    }
+  }
+  this.toggle2 = function() {
+    status = !status;
+    if (status === true) {
+      $('#light2').css('backgroundColor', 'blue');
+    } else {
+      $('#light2').css('backgroundColor', 'rgb(0,0,120)');
+    }
+  }
+  this.toggle3 = function() {
+    status = !status;
+    if (status === true) {
+      $('#light3').css('backgroundColor', 'rgb(200,200,200)');
+    } else {
+      $('#light3').css('backgroundColor', 'rgb(50,50,50)');
+    }
+  }
+  this.toggle4 = function() {
+    status = !status;
+    if (status === true) {
+      $('#light4').css('backgroundColor', 'red');
+    } else {
+      $('#light4').css('backgroundColor', 'rgb(120,0,0)');
+    }
+  }
+  this.check = function() {
+    return status;
+  }
+  
+  //--------------------------------------------------------------
+
+  var timer;
+  var power = false;
+  this.toggleBlink = function() {
+    if (flag === true) {
+    	power = !power;
+      if (power === true) {
+        timer = setInterval(this.toggle, 400);
+      } else {
+        clearInterval(timer);
+        $('#light0').css('backgroundColor', 'rgb(190,0,110)');
+        status = false;
+      }
+    }
+  }
+  this.toggleBlink1 = function() {
+    if (flag === true) {
+    	power = !power;
+      if (power === true) {
+        timer = setInterval(this.toggle1, 400);
+      } else {
+        clearInterval(timer);
+        $('#light1').css('backgroundColor', 'orange');
+        status = false;
+      }
+    }
+  }
+  this.toggleBlink2 = function() {
+    if (flag === true) {
+    	power = !power;
+      if (power === true) {
+        timer = setInterval(this.toggle2, 400);
+      } else {
+        clearInterval(timer);
+        $('#light2').css('backgroundColor', 'rgb(0,0,120)');
+        status = false;
+      }
+    }
+  }
+  this.toggleBlink3 = function() {
+    if (flag === true) {
+    	power = !power;
+      if (power === true) {
+        timer = setInterval(this.toggle3, 400);
+      } else {
+        clearInterval(timer);
+        $('#light3').css('backgroundColor', 'rgb(50,50,50)');
+        status = false;
+      }
+    }
+  }
+  this.toggleBlink4 = function() {
+    if (flag === true) {
+    	power = !power;
+      if (power === true) {
+        timer = setInterval(this.toggle4, 400);
+      } else {
+        clearInterval(timer);
+        $('#light4').css('backgroundColor', 'rgb(120,0,0)');
+        status = false;
+      }
+    }
+  }
+}
+
+//------------------------------------------------------
+$().ready(function(){
+	var root = [
+      {"x":11,"y":5},{"x":11,"y":7},
+      {"x":12,"y":5},{"x":12,"y":7},
+  ]
+  var borderdots = [
+  	{"x":1,"y":6},
+    {"x":2,"y":7},{"x":2,"y":5},
+    {"x":3,"y":4},{"x":3,"y":8},
+    {"x":4,"y":3},{"x":4,"y":4},{"x":4,"y":8},{"x":4,"y":9},
+    {"x":5,"y":4},{"x":5,"y":8},
+    {"x":6,"y":3},{"x":6,"y":9},
+    {"x":7,"y":2},{"x":7,"y":3},{"x":7,"y":9},{"x":7,"y":10},
+    {"x":8,"y":3},{"x":8,"y":9},
+    {"x":9,"y":2},{"x":9,"y":10},
+    {"x":10,"y":1},{"x":10,"y":2},{"x":10,"y":3},{"x":10,"y":4},
+    {"x":10,"y":5},{"x":10,"y":7},{"x":10,"y":8},{"x":10,"y":9},
+    {"x":10,"y":10},{"x":10,"y":11},
+  ];
+  var dots1 = [
+  	{"x":1,"y":6},
+    {"x":2,"y":7},{"x":2,"y":5},
+    {"x":3,"y":4},{"x":3,"y":8},
+    {"x":4,"y":3},{"x":4,"y":4},{"x":4,"y":8},{"x":4,"y":9},
+    {"x":5,"y":4},{"x":5,"y":8},
+    {"x":6,"y":3},{"x":6,"y":9},
+    {"x":7,"y":2},{"x":7,"y":3},{"x":7,"y":9},{"x":7,"y":10},
+    {"x":8,"y":3},{"x":8,"y":9},
+    {"x":9,"y":2},{"x":9,"y":10},
+    {"x":10,"y":1},{"x":10,"y":2},{"x":10,"y":3},{"x":10,"y":4},
+    {"x":10,"y":5},{"x":10,"y":7},{"x":10,"y":8},{"x":10,"y":9},
+    {"x":10,"y":10},{"x":10,"y":11},
+    {"x":11,"y":5},{"x":11,"y":7},
+    {"x":12,"y":5},{"x":12,"y":7},
+  ];
+  
+  //------------------------------------------
+  
+	var table = $("<table></table>");
+  for(var i =0;i<13;i++){
+  	var tr = $("<tr></tr>");
+    for(var j =0;j<12;j++){
+  		var td = $("<td></td>");
+      for(var c=0;c<borderdots.length;c++){
+      	var dot = borderdots[c];
+        if(dot["x"] == i && dot["y"]==j){
+        	//console.log(dot);
+          main =!main;
+            if(main === true)
+            	$(td).addClass("green1");
+            else
+            	$(td).addClass("green");
+        }
+      }
+      for(var c=0;c<root.length;c++){
+      	var dot = root[c];
+        if(dot["x"] == i && dot["y"]==j){
+        	//console.log(dot);
+          $(td).addClass("brown");
+        }
+      }
+      $(tr).append(td);
+    }
+    $(table).append(tr);
+  }
+  $("html").append(table);
+});
+//-------------------------------------------------
+
+var l0 = new Light();
+var l1 = new Light();
+var l2 = new Light();
+var l3 = new Light();
+var l4 = new Light();
+
+l0.toggle();
+l1.toggle1();
+l2.toggle2();
+l3.toggle3();
+l4.toggle4();
+
+$('#l0').click(function() {
+  l0.toggleBlink()
+});
+$('#l1').click(function() {
+  l1.toggleBlink1()
+});
+$('#l2').click(function() {
+  l2.toggleBlink2()
+});
+$('#l3').click(function() {
+  l3.toggleBlink3()
+});
+$('#l4').click(function() {
+  l4.toggleBlink4()
+});
+
+$('#touch').click(function() {
+  l0.onoff()
+});
+$('#touch').click(function() {
+  l1.onoff1()
+});
+$('#touch').click(function() {
+  l2.onoff2()
+});
+$('#touch').click(function() {
+  l3.onoff3()
+});
+$('#touch').click(function() {
+  l4.onoff4()
+});
+$('#touch').click(function() {
+  l0.main()
+});
+
+
+</script>
+</body>
+
+</html>
