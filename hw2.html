@@ -1,0 +1,565 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<style>
+#info {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: #ffff00
+}
+
+body {
+  overflow: hidden;
+}
+</style>
+</head>
+
+<body> 
+
+<div id="info">HW2
+<a href="https://jsfiddle.net/weipohao/daz5ojvd/" >hw2.jsfiddle</a>
+<br/><p id = 'v1'>view1</p>
+<p id = 'v2'>view2</p></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
+
+<script>
+var camera, scene, renderer, mesh, light, controls,door;
+///////////floor planfloor planfloor planfloor planfloor plan
+
+init();
+animate();
+
+function init() {
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+  camera.position.set(150,250,150);
+	camera.lookAt(new THREE.Vector3(0,0,0));
+  /////////////////////////////////////////////////////////////////camera
+  $('#v1').click(
+
+  function() {
+    camera.position.set(-200, 200, 200);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+  }
+);
+
+$('#v2').click(
+
+  function() {
+    camera.position.set(-250, 300, 0);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+  }
+);
+  /////////////////////////////////////////////////////////////////
+  //camera.position.z =500;
+  scene.add(camera);
+
+  light = new THREE.PointLight(0xffffff);
+  light.position.set(-120, 50, 100);
+  scene.add(light);
+  light1 = new THREE.PointLight(0xffffff);
+  light1.position.set(120, 50, -100);
+  scene.add(light1);
+
+  var gridXZ = new THREE.GridHelper(180, 18, 'red', 'white');
+  scene.add(gridXZ);
+  // gridXZ.position.set (25,0,25);
+
+  var axis = new THREE.AxisHelper(25);
+  scene.add(axis);
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x888888);
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  document.body.appendChild(renderer.domElement);
+  /////////////////////////////////////////////////////////////地板
+
+  var geometry = new THREE.PlaneGeometry(160, 110);
+  var material = new THREE.MeshLambertMaterial({
+    color: 0x6666ff,
+    side: THREE.DoubleSide
+  });
+
+  var ground = new THREE.Mesh(geometry, material);
+  ground.rotation.x = Math.PI / 2;
+  ground.position.set(10, 0, 5);
+  ///////////////////////////////////////////////////////
+  var geometry1 = new THREE.PlaneGeometry(20, 90);
+  var material1 = new THREE.MeshLambertMaterial({
+    color: 0x6666ff,
+    side: THREE.DoubleSide
+  });
+
+  var ground1 = new THREE.Mesh(geometry1, material1);
+  ground1.rotation.x = Math.PI / 2;
+  ground1.position.set(-80, 0, -5);
+  ///////////////////////////////////////////////////////
+   scene.add(ground);
+   scene.add(ground1);
+   
+  ////////////////////////////////////////////////////////橫向
+  var wallGeometry1 = new THREE.BoxGeometry(10, 30, 2);
+  var wallMaterial1 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround1 = new THREE.Mesh(wallGeometry1, wallMaterial1);
+  wallGround1.position.set(85, 15, -49);
+  /////////////////////////////////////////////////////////////windowup
+  var wallGeometry11 = new THREE.BoxGeometry(10, 7, 2);
+  var wallMaterial11 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround11 = new THREE.Mesh(wallGeometry11, wallMaterial11);
+  wallGround11.position.set(75, 26.5, -49);
+  /////////////////////////////////////////////////////////////windowdown
+  var wallGeometry12 = new THREE.BoxGeometry(10, 14, 2);
+  var wallMaterial12 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround12 = new THREE.Mesh(wallGeometry12, wallMaterial12);
+  wallGround12.position.set(75, 7, -49);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry13 = new THREE.BoxGeometry(60, 30, 2);
+  var wallMaterial13 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround13 = new THREE.Mesh(wallGeometry13, wallMaterial13);
+  wallGround13.position.set(40, 15, -49);
+  /////////////////////////////////////////////////////////////windowup
+  var wallGeometry14 = new THREE.BoxGeometry(10, 7, 2);
+  var wallMaterial14 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround14 = new THREE.Mesh(wallGeometry14, wallMaterial14);
+  wallGround14.position.set(5, 26.5, -49);
+  /////////////////////////////////////////////////////////////windowdown
+  var wallGeometry15 = new THREE.BoxGeometry(10, 14, 2);
+  var wallMaterial15 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround15 = new THREE.Mesh(wallGeometry15, wallMaterial15);
+  wallGround15.position.set(5, 7, -49);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry16 = new THREE.BoxGeometry(70, 30, 2);
+  var wallMaterial16 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround16 = new THREE.Mesh(wallGeometry16, wallMaterial16);
+  wallGround16.position.set(-35, 15, -49);
+  /////////////////////////////////////////////////////////////
+  scene.add(wallGround1);
+	scene.add(wallGround11);
+  scene.add(wallGround12);
+  scene.add(wallGround13);
+  scene.add(wallGround14);
+  scene.add(wallGround15);
+  scene.add(wallGround16);
+  //////////////////////////////////////////////////////////////
+  var wallGeometry2 = new THREE.BoxGeometry(38, 30, 2);
+  var wallMaterial2 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround2 = new THREE.Mesh(wallGeometry2, wallMaterial2);
+  wallGround2.position.set(69, 15, 4);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry21 = new THREE.BoxGeometry(5, 30, 2);
+  var wallMaterial21 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround21 = new THREE.Mesh(wallGeometry21, wallMaterial21);
+  wallGround21.position.set(47.5, 15, -11);
+  /////////////////////////////////////////////////////////////door
+  var wallGeometry22 = new THREE.BoxGeometry(10, 10, 2);
+  var wallMaterial22 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround22 = new THREE.Mesh(wallGeometry22, wallMaterial22);
+  wallGround22.position.set(40, 25, -11);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry23 = new THREE.BoxGeometry(50, 30, 2);
+  var wallMaterial23 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround23 = new THREE.Mesh(wallGeometry23, wallMaterial23);
+  wallGround23.position.set(10, 15, -11);
+  /////////////////////////////////////////////////////////////door
+  var wallGeometry24 = new THREE.BoxGeometry(10, 10, 2);
+  var wallMaterial24 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround24 = new THREE.Mesh(wallGeometry24, wallMaterial24);
+  wallGround24.position.set(-20, 25, -11);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry25 = new THREE.BoxGeometry(43, 30, 2);
+  var wallMaterial25 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround25 = new THREE.Mesh(wallGeometry25, wallMaterial25);
+  wallGround25.position.set(-46.5, 15, -11);
+  /////////////////////////////////////////////////////////////
+  scene.add(wallGround2);
+  scene.add(wallGround21);
+  scene.add(wallGround22);
+  scene.add(wallGround23);
+  scene.add(wallGround24);
+  scene.add(wallGround25);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry3 = new THREE.BoxGeometry(13, 30, 2);
+  var wallMaterial3 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround3 = new THREE.Mesh(wallGeometry3, wallMaterial3);
+  wallGround3.position.set(81.5, 15, 26);
+  /////////////////////////////////////////////////////////////door
+  var wallGeometry31 = new THREE.BoxGeometry(10, 10, 2);
+  var wallMaterial31 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround31 = new THREE.Mesh(wallGeometry31, wallMaterial31);
+  wallGround31.position.set(70, 25, 26);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry32 = new THREE.BoxGeometry(10, 30, 2);
+  var wallMaterial32 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround32 = new THREE.Mesh(wallGeometry32, wallMaterial32);
+  wallGround32.position.set(60, 15, 26);
+  /////////////////////////////////////////////////////////////door
+  var wallGeometry33 = new THREE.BoxGeometry(10, 10, 2);
+  var wallMaterial33 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround33 = new THREE.Mesh(wallGeometry33, wallMaterial33);
+  wallGround33.position.set(50, 25, 26);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry34 = new THREE.BoxGeometry(10, 30, 2);
+  var wallMaterial34 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround34 = new THREE.Mesh(wallGeometry34, wallMaterial34);
+  wallGround34.position.set(40, 15, 26);
+  /////////////////////////////////////////////////////////////
+  scene.add(wallGround3);
+  scene.add(wallGround31);
+  scene.add(wallGround32);
+  scene.add(wallGround33);
+  scene.add(wallGround34);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry4 = new THREE.BoxGeometry(160, 30, 2);
+  var wallMaterial4 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround4 = new THREE.Mesh(wallGeometry4, wallMaterial4);
+  wallGround4.position.set(10, 15, 59);
+  /////////////////////////////////////////////////////////////
+  scene.add(wallGround4);
+  /////////////////////////////////////////////////////////////
+  
+  
+  
+  
+  
+  
+  
+  
+  ////////////////////////////////////////////////////////縱向
+  var boxGeometry1 = new THREE.BoxGeometry(2, 30, 58);
+  var boxMaterial1 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround1 = new THREE.Mesh(boxGeometry1, boxMaterial1);
+  boxGround1.position.set(89, 15, -19);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry11 = new THREE.BoxGeometry(2, 30, 38);
+  var boxMaterial11 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround11 = new THREE.Mesh(boxGeometry11, boxMaterial11);
+  boxGround11.position.set(89, 15, 39);
+  //////////////////////////////////////////////////////////////door
+  var boxGeometry12 = new THREE.BoxGeometry(2, 10, 10);
+  var boxMaterial12 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround12 = new THREE.Mesh(boxGeometry12, boxMaterial12);
+  boxGround12.position.set(89, 25, 15);
+  //////////////////////////////////////////////////////////////
+  scene.add(boxGround1);
+  scene.add(boxGround11);
+  scene.add(boxGround12);
+	//////////////////////////////////////////////////////////////
+  var boxGeometry21 = new THREE.BoxGeometry(2, 30, 40.5);
+  var boxMaterial21 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround21 = new THREE.Mesh(boxGeometry21, boxMaterial21);
+  boxGround21.position.set(51, 15, -27.5);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry22 = new THREE.BoxGeometry(2, 30, 0.5);
+  var boxMaterial22 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround22 = new THREE.Mesh(boxGeometry22, boxMaterial22);
+  boxGround22.position.set(51, 15, 2.75);
+  //////////////////////////////////////////////////////////////door
+  var boxGeometry23 = new THREE.BoxGeometry(2, 10, 10);
+  var boxMaterial23 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround23 = new THREE.Mesh(boxGeometry23, boxMaterial23);
+  boxGround23.position.set(51, 25, -2.5);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry24 = new THREE.BoxGeometry(2, 30, 31);
+  var boxMaterial24 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround24 = new THREE.Mesh(boxGeometry24, boxMaterial24);
+  boxGround24.position.set(61, 15, 42.5);
+  //////////////////////////////////////////////////////////////
+  scene.add(boxGround21);
+  scene.add(boxGround22);
+  scene.add(boxGround23);
+  scene.add(boxGround24);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry3 = new THREE.BoxGeometry(2, 30, 36);
+  var boxMaterial3 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround3 = new THREE.Mesh(boxGeometry3, boxMaterial3);
+  boxGround3.position.set(-9, 15, -30);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry31 = new THREE.BoxGeometry(2, 30, 31);
+  var boxMaterial31 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround31 = new THREE.Mesh(boxGeometry31, boxMaterial31);
+  boxGround31.position.set(36, 15, 42.5);
+  //////////////////////////////////////////////////////////////
+  scene.add(boxGround3);
+  scene.add(boxGround31);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry4 = new THREE.BoxGeometry(2, 30, 35);
+  var boxMaterial4 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround4 = new THREE.Mesh(boxGeometry4, boxMaterial4);
+  boxGround4.position.set(-69, 15, -17.5);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry41 = new THREE.BoxGeometry(2, 30, 28);
+  var boxMaterial41 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround41 = new THREE.Mesh(boxGeometry41, boxMaterial41);
+  boxGround41.position.set(-69, 15, 44);
+  //////////////////////////////////////////////////////////////
+  var boxGeometry42 = new THREE.BoxGeometry(2, 30, 3);
+  var boxMaterial42 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround42 = new THREE.Mesh(boxGeometry42, boxMaterial42);
+  boxGround42.position.set(-69, 15, -46.5);
+  //////////////////////////////////////////////////////////////windowup
+  var boxGeometry43 = new THREE.BoxGeometry(2, 7, 10);
+  var boxMaterial43 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround43 = new THREE.Mesh(boxGeometry43, boxMaterial43);
+  boxGround43.position.set(-69, 26.5, -40);
+  /////////////////////////////////////////////////////////////windowdown
+  var boxGeometry44 = new THREE.BoxGeometry(2, 14, 10);
+  var boxMaterial44 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround44 = new THREE.Mesh(boxGeometry44, boxMaterial44);
+  boxGround44.position.set(-69, 7, -40);
+  /////////////////////////////////////////////////////////////
+  var boxGeometry45 = new THREE.BoxGeometry(2, 2, 30);
+  var boxMaterial45 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround45 = new THREE.Mesh(boxGeometry45, boxMaterial45);
+  boxGround45.position.set(-69, 1, 15);
+  /////////////////////////////////////////////////////////////
+  var boxGeometry46 = new THREE.BoxGeometry(2, 5, 30);
+  var boxMaterial46 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround46 = new THREE.Mesh(boxGeometry46, boxMaterial46);
+  boxGround46.position.set(-69, 27.5, 15);
+  /////////////////////////////////////////////////////////////
+  scene.add(boxGround4);
+  scene.add(boxGround41);
+  scene.add(boxGround42);
+  scene.add(boxGround43);
+  scene.add(boxGround44);
+  scene.add(boxGround45);
+  scene.add(boxGround46);
+  /////////////////////////////////////////////////////////////陽台
+  var boxGeometry5 = new THREE.BoxGeometry(2, 15, 90);
+  var boxMaterial5 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var boxGround5 = new THREE.Mesh(boxGeometry5, boxMaterial5);
+  boxGround5.position.set(-89, 7.5, -5);
+  /////////////////////////////////////////////////////////////
+  scene.add(boxGround5);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry51 = new THREE.BoxGeometry(18, 15, 2);
+  var wallMaterial51 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround51 = new THREE.Mesh(wallGeometry51, wallMaterial51);
+  wallGround51.position.set(-79, 7.5, 39);
+  /////////////////////////////////////////////////////////////
+  var wallGeometry52 = new THREE.BoxGeometry(18, 15, 2);
+  var wallMaterial52 = new THREE.MeshLambertMaterial({
+    color: 0x8888ff,
+    side: THREE.DoubleSide
+  });
+	
+  var wallGround52 = new THREE.Mesh(wallGeometry52, wallMaterial52);
+  wallGround52.position.set(-79, 7.5, -49);
+  /////////////////////////////////////////////////////////////
+  scene.add(wallGround51);
+  scene.add(wallGround52);
+  /////////////////////////////////////////////////////////////doorbox 
+  door = new THREE.Object3D();
+  var doora = new THREE.Mesh(new THREE.BoxGeometry(20, 10, 1), 
+  	new THREE.MeshLambertMaterial({
+    	color: 0x88ffff,
+    	side: THREE.DoubleSide
+  	}));
+  //door1.position.set(0, 0, 0);
+  doora.rotation.z = Math.PI/2;
+  doora.rotation.y = -Math.PI/6;
+  door.add(doora);
+  door.position.set(84, 10, 17.5);
+  scene.add(door);
+  /////////////////////////////////////////////////////////////
+  var door1 = door.clone();
+  door1.position.set(56, 10, -5);
+  scene.add(door1);
+  var door2 = door.clone();/////////////////////////
+  door2.position.set(43, 10, -15);
+  door2.rotation.y = -Math.PI/6;
+  scene.add(door2);
+  var door3 = door2.clone();////////////////////////
+  door3.position.set(-18, 10, -15);
+  scene.add(door3);
+  var door4 = door2.clone();////////////////////////
+  door4.position.set(48, 10, 31);
+  scene.add(door4);
+  var door5 = door2.clone();////////////////////////
+  door5.position.set(68, 10, 31);
+  scene.add(door5);
+  //////////////////////////////////////////////////////////////
+}
+
+function animate() {
+  controls.update();
+
+  requestAnimationFrame(animate);
+  render();
+}
+
+function render() {
+  renderer.render(scene, camera);
+}
+
+// important to add this 
+// in jsfiddle!
+window.focus();
+
+
+</script>
+</body>
+
+</html>
