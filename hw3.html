@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<style>
+#info {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: #ffff00
+}
+
+body {
+  overflow: hidden;
+}
+
+</style>
+</head>
+
+<body> 
+
+
+<div id="info">HW3
+<a href="https://jsfiddle.net/weipohao/ysqx762d/" >hw2.jsfiddle</a>
+<p></p>
+<button id='black'>
+Leftlight
+</button>
+<button id='blue'>
+Centerlight
+</button>
+<button id='white'>
+Rightlight
+</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js">
+
+
+</script>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script>
+var camera, scene, renderer, mesh, controls,mesh1,plane;
+var status = false;
+var status1 = false,status2 = false;
+var spotLight,spotLight2,spotLight3;
+var picwall,picwall2;
+var texture,oneSideTex,oneSideTex2;
+
+init();
+animate();
+
+function init() {
+
+  scene = new THREE.Scene();
+  /////////////////////////////////////////////////////////////////
+
+$('#black').click(
+function(){
+	if(status==false){
+    spotLight2.angle = 0.2;
+    status=true;
+  }
+  else if (status==true){
+    spotLight2.angle = 0;
+    status=false;
+  }
+}
+);
+$('#blue').click(
+function(){
+	if(status2==false){
+  	spotLight3.angle = 0.8;
+    status2=true;
+  }
+  else if (status2==true){
+  	spotLight3.angle = 0;
+    status2=false;
+  }
+}
+);
+$('#white').click(
+function(){
+	if(status1==false){
+  	spotLight.angle = 0.2;
+    status1=true;
+  }
+  else if (status1==true){
+  	spotLight.angle = 0;
+    status1=false;
+  }
+}
+);
+/*
+  var pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
+pointLight.position.set( 10, 30, 0 );
+scene.add( pointLight );
+
+var sphereSize = 1;
+var pointLightHelper = new THREE.PointLightHelper( pointLight,5 );
+scene.add( pointLightHelper );
+*/
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.9 );
+scene.add( directionalLight );
+directionalLight.position.set( -30, 20, 0 );
+
+
+/////////////////////////////////////////////////////////////
+spotLight = new THREE.SpotLight( 0xFFCC33 );
+spotLight.position.set( -100, -100, -100 );
+
+scene.add( spotLight );
+spotLight.angle = 0;
+spotLight.penumbra = 1;
+spotLight.intensity = 1;
+
+var spotLightHelper = new THREE.SpotLightHelper( spotLight );
+//scene.add( spotLightHelper );
+///////////////////////////////////light2
+spotLight2 = new THREE.SpotLight( 0xFFCC33 );
+spotLight2.position.set( -100, -100, 100 );
+
+scene.add( spotLight2 );
+spotLight2.angle = 0;
+spotLight2.penumbra = 1;
+spotLight2.intensity = 1;
+
+var spotLightHelper2 = new THREE.SpotLightHelper( spotLight2 );
+//scene.add( spotLightHelper2 );
+/////////////////////////////////////////////
+spotLight3 = new THREE.SpotLight( 0xFFCC33 );
+spotLight3.position.set( 10, 150, 0 );
+
+scene.add( spotLight3 );
+spotLight3.angle = 0;
+spotLight3.distance = 400;
+spotLight3.penumbra = 1;
+spotLight3.intensity = 1;
+
+var spotLightHelper3 = new THREE.SpotLightHelper( spotLight3 );
+//scene.add( spotLightHelper3 );
+
+
+////////////////////////////////////////////////////////////////////////
+
+var gridHelper = new THREE.GridHelper( 120, 12 ,'red','white');
+//scene.add( gridHelper );
+
+var axisHelper = new THREE.AxisHelper( 10 );
+//scene.add( axisHelper );
+
+var geometry = new THREE.BoxGeometry(3 , 120, 90 );
+var material = new THREE.MeshLambertMaterial( {color:0xffffff} );
+ plane = new THREE.Mesh( geometry, material );
+ plane.rotation.z = Math.PI / 2;
+ plane.rotation.y = Math.PI / 2;
+ plane.position.set( -15, 0, 0 );
+scene.add( plane );
+loadTexture3('http://i.imgur.com/s4DhT5h.jpg');
+
+/////////////////////////////////////////////////////////////3dmaterial
+
+
+///////////////////////////////////////////////////////////////////////
+
+var geometry = new THREE.BoxGeometry( 3, 50, 120,5,5,5 );
+var material = new THREE.MeshLambertMaterial( {color: 0xffffff} );
+var wall = new THREE.Mesh( geometry, material );
+wall.position.set( 30, 23.5, 0 );
+scene.add( wall );
+////////////////////////////////////////////
+
+var geometry1 = new THREE.BoxGeometry( 1, 24, 36,5,5,5 );
+var material1 = new THREE.MeshLambertMaterial( {color: 0xffffff} );
+picwall = new THREE.Mesh( geometry1, material1 );
+picwall.position.set( 28.4, 25, -30 );
+scene.add( picwall );
+
+loadTexture('http://i.imgur.com/o8IeUPG.png');
+
+/////////////////////////////////////////////
+var geometry2 = new THREE.BoxGeometry( 1, 24, 36,5,5,5 );
+var material2 = new THREE.MeshLambertMaterial( {color: 0xffffff} );
+picwall2 = new THREE.Mesh( geometry2, material2 );
+picwall2.position.set( 28.4, 25, 30 );
+scene.add( picwall2 );
+
+loadTexture2('http://i.imgur.com/DDaztdg.png');
+
+////////////////////////////////////////////////////////////////panit
+var loader = new THREE.ObjectLoader();
+
+loader.load(
+    // resource URL
+    "models/json/example.json",
+
+    // pass the loaded data to the onLoad function.
+//Here it is assumed to be an object
+    function ( obj ) {
+		//add the loaded object to the scene
+        scene.add( obj );
+    },
+
+    // Function called when download progresses
+    function ( xhr ) {
+        console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+    },
+
+    // Function called when download errors
+    function ( xhr ) {
+        console.error( 'An error happened' );
+    }
+);
+///////////////////////////////////////////////////////////////////
+
+
+  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+  //camera.position.z = 500;
+  camera.position.set(-120, 50, 0);
+  scene.add(camera);
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x888888);
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  document.body.appendChild(renderer.domElement);
+
+	////////////////////////////////////////////////////////////////////////
+
+}
+
+function animate() {
+	
+  if (oneSideTex !== undefined) {
+  	// texture already loaded ...
+  	picwall.material = oneSideTex;
+  }
+  if (oneSideTex2 !== undefined) {
+  	// texture already loaded ...
+  	picwall2.material = oneSideTex2;
+  }
+  
+  if (texture !== undefined) {
+  	// texture already loaded ...
+  	plane.material.map = texture;
+    
+    // tell Three.js that something needs update
+    plane.material.needsUpdate = true;
+  }
+  
+
+	controls.update();
+  requestAnimationFrame(animate);
+  render();
+}
+
+function render() {
+  renderer.render(scene, camera);
+}
+
+
+////////////////////////////////////////////////////////material
+function loadTexture( url ) {
+
+	// instantiate a loader
+  var loader = new THREE.TextureLoader();
+  loader.setCrossOrigin('');
+
+  // load a resource
+  loader.load(
+    // resource URL
+    url, // Lena
+    // Function when resource is loaded
+    function (tex) {
+    	console.log ('texture loaded ...');
+      
+      var textures = [
+      	new THREE.MeshLambertMaterial({map: tex}),
+      	new THREE.MeshLambertMaterial({map: tex}),
+      	new THREE.MeshLambertMaterial({map: tex}),
+      	new THREE.MeshLambertMaterial({map: tex}),
+      	new THREE.MeshLambertMaterial({map: tex}), // +z
+      	new THREE.MeshLambertMaterial({map: tex}),
+      ];
+      
+      oneSideTex = new THREE.MultiMaterial (textures)
+		},
+
+    // Function called when download progresses
+    function(xhr) {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    // Function called when download errors
+    function(xhr) {
+      console.log('An error happened');
+    }
+  );
+  
+}
+
+
+function loadTexture2( url2 ) {
+
+	// instantiate a loader
+  var loader2 = new THREE.TextureLoader();
+  loader2.setCrossOrigin('');
+
+  // load a resource
+  loader2.load(
+    // resource URL
+    url2, // Lena
+    // Function when resource is loaded
+    function (tex2) {
+    	console.log ('texture loaded ...');
+      
+      var textures2 = [
+      	new THREE.MeshLambertMaterial({map: tex2}),
+      	new THREE.MeshLambertMaterial({map: tex2}),
+      	new THREE.MeshLambertMaterial({map: tex2}),
+      	new THREE.MeshLambertMaterial({map: tex2}),
+      	new THREE.MeshLambertMaterial({map: tex2}), // +z
+      	new THREE.MeshLambertMaterial({map: tex2}),
+      ];
+      
+      oneSideTex2 = new THREE.MultiMaterial (textures2)
+		}
+  );
+  
+}
+
+function loadTexture3( url3 ) {
+
+	// instantiate a loader
+  var loader3 = new THREE.TextureLoader();
+  loader3.setCrossOrigin('');
+
+  // load a resource
+  loader3.load(
+    // resource URL
+    url3, // Lena
+    // Function when resource is loaded
+    function (tex3) {
+    	console.log ('texture loaded ...');
+      
+      texture = tex3; // for global access with Keypress
+    }
+  );
+  
+}
+
+
+</script>
+</body>
+
+</html>
