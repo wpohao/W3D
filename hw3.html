@@ -24,7 +24,7 @@ body {
 
 
 <div id="info">HW3
-<a href="https://jsfiddle.net/weipohao/ysqx762d/" >hw2.jsfiddle</a>
+<a href="https://jsfiddle.net/weipohao/ysqx762d/" >hw3.jsfiddle</a>
 <p></p>
 <button id='black'>
 Leftlight
@@ -192,30 +192,31 @@ scene.add( picwall2 );
 
 loadTexture2('http://i.imgur.com/DDaztdg.png');
 
-////////////////////////////////////////////////////////////////panit
-var loader = new THREE.ObjectLoader();
+////////////////////////////////////////////////////////////////lamp
+ table = new THREE.Object3D();
 
-loader.load(
-    // resource URL
-    "models/json/example.json",
+ var lampgeometry = new THREE.CylinderGeometry(10, 15, 5, 28);
+    var lampmaterial = new THREE.MeshBasicMaterial({color:0xaaaaaa});
 
-    // pass the loaded data to the onLoad function.
-//Here it is assumed to be an object
-    function ( obj ) {
-		//add the loaded object to the scene
-        scene.add( obj );
-    },
+    var top = new THREE.Mesh(lampgeometry, lampmaterial);
+    
+     var lampgeometry1 = new THREE.CylinderGeometry(1, 1, 3, 10);
+    var lampmaterial1 = new THREE.MeshBasicMaterial({color:0xaaaaaa});
 
-    // Function called when download progresses
-    function ( xhr ) {
-        console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-    },
-
-    // Function called when download errors
-    function ( xhr ) {
-        console.error( 'An error happened' );
-    }
-);
+    var top1 = new THREE.Mesh(lampgeometry1, lampmaterial1);
+    top.position.set (0, 47, 0);
+    top1.position.set (0, 3, -5);
+    top1.rotation.z = -Math.PI / 5;
+    top1.rotation.x = -Math.PI / 6;
+    var top2 = top1.clone();
+     table.add (top2);
+    top2.position.set (0, 3, 5);
+    top2.rotation.z = -Math.PI / 5;
+    top2.rotation.x = Math.PI / 6;
+    
+     table.add (top);
+     table.add (top1);
+     scene.add(table);
 ///////////////////////////////////////////////////////////////////
 
 
@@ -354,6 +355,8 @@ function loadTexture3( url3 ) {
   );
   
 }
+
+
 
 
 </script>
