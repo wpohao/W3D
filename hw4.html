@@ -49,7 +49,8 @@ body {
 
 
 </script>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script>
 var raycaster = new THREE.Raycaster();
@@ -58,29 +59,40 @@ var pickplane;
 var cyl;
 var spheres = [];
 var top,tables = [];
+var top2,top21,chairs = [];
 
 var scene, renderer, camera;
 var controls;
 var mesh, angle = 0,
-  turn = false;
+  turn = 0;
 
 init();
 animate();
 
 $('#red').change(function() {
-
+	if(turn==1)
   top.material.color= new THREE.Color( 0xff0000 );
-
+  if(turn==2){
+  top2.material.color= new THREE.Color( 0xff0000 );
+  top21.material.color= new THREE.Color( 0xff0000 );
+  }
 });
 $('#blue').change(function() {
-
+	if(turn==1)
   top.material.color= new THREE.Color( 0x0000ff );
+  if(turn==2){
+  top2.material.color= new THREE.Color( 0x0000ff );
+  top21.material.color= new THREE.Color( 0x0000ff );
+  }
 
 });
 $('#green').change(function() {
-
+	if(turn==1)
   top.material.color= new THREE.Color( 0x00ff00 );
-
+  if(turn==2){
+  top2.material.color= new THREE.Color( 0x00ff00 );
+  top21.material.color= new THREE.Color( 0x00ff00 );
+}
 });
 
 $('#clear').click(function() {
@@ -89,6 +101,11 @@ $('#clear').click(function() {
     scene.remove(table);
   });
   tables = [];
+  
+  chairs.forEach(function(chair) {
+    scene.remove(chair);
+  });
+  chairs = [];
 
 });
 
@@ -100,6 +117,13 @@ $('#save').click(function() {
   });
 
   localStorage.setItem('stateStr', JSON.stringify(states));
+  
+  var states2 = [];
+  chairs.forEach(function(chair) {
+    states2.push(chair.name);
+  });
+
+  localStorage.setItem('stateStr2', JSON.stringify(states2));
 
 });
 
@@ -111,14 +135,21 @@ $('#restore').click(function() {
     var state = JSON.parse(stateStr);
     buildSphere(state.rad, new THREE.Vector3(state.pos[0], 0, state.pos[1]));
   });
+  
+  var states2 = JSON.parse(localStorage2.getItem('stateStr2'));
+  states2.forEach(function(stateStr2) {
+    console.log(stateStr2);
+    var state2 = JSON.parse(stateStr2);
+    buildSphere(state2.rad, new THREE.Vector3(state2.pos[0], 0, state2.pos[1]));
+  });
 
 });
 
 function buildSphere(rad, pos) {
-if(turn){
+if(turn==1){
  table = new THREE.Object3D();
 
-  var geometry = new THREE.BoxGeometry(20, 20, 5);
+  var geometry = new THREE.BoxGeometry(40, 20, 5);
   var material = new THREE.MeshLambertMaterial();
 
   top = new THREE.Mesh(geometry, material);
@@ -132,13 +163,13 @@ if(turn){
     color: 0xe699ff
   }));
   leg1.add(legBody);
-  legBody.position.set(8, 8, 8);
+  legBody.position.set(18, 8, 8);
   table.add(leg1);
  var leg2 = leg1.clone();
-  leg2.rotation.y = 1 / 2 * Math.PI;
+  leg2.position.set(0,0,-16);
   table.add(leg2);
   var leg3 = leg1.clone();
-  leg3.rotation.y = -1 / 2 * Math.PI;
+  leg3.position.set(-36,0,0);
   table.add(leg3);
    var leg4 = leg1.clone();
   leg4.rotation.y = - Math.PI;
@@ -156,6 +187,55 @@ scene.add(table);
   tables.push(table);
   table.position.copy(pos);
 }
+///////////////////////////////////////////////////chair
+else if(turn==2){
+chair = new THREE.Object3D();
+
+  var chairgeometry = new THREE.BoxGeometry(15, 15, 3);
+  var chairmaterial = new THREE.MeshLambertMaterial();
+
+  top2 = new THREE.Mesh(chairgeometry, chairmaterial);
+  top2.position.set(0, 12.5, 0);
+	top2.rotation.x = -1/2 * Math.PI;
+  chair.add(top2);
+  
+  var chairgeometry = new THREE.BoxGeometry(15, 15, 3);
+  var chairmaterial = new THREE.MeshLambertMaterial();
+
+  top21 = new THREE.Mesh(chairgeometry, chairmaterial);
+  top21.position.set(0, 20, -6);
+  chair.add(top21);
+
+  // leg
+  var leg1 = new THREE.Object3D();
+  var legBody = new THREE.Mesh(new THREE.BoxGeometry(2, 12, 2), new THREE.MeshLambertMaterial({
+    color: 0xe699ff
+  }));
+  leg1.add(legBody);
+  legBody.position.set(6, 6, 6);
+  chair.add(leg1);
+ var leg2 = leg1.clone();
+  leg2.rotation.y = 1 / 2 * Math.PI;
+  chair.add(leg2);
+  var leg3 = leg1.clone();
+  leg3.rotation.y = -1 / 2 * Math.PI;
+  chair.add(leg3);
+   var leg4 = leg1.clone();
+  leg4.rotation.y = - Math.PI;
+  chair.add(leg4);
+scene.add(chair);
+
+  var prop = {
+    rad: rad,
+    pos: [pos.x, pos.z]
+  };
+  console.log(prop);
+  chair.name = JSON.stringify(prop);
+  console.log(chair.name);
+
+  chairs.push(chair);
+  chair.position.copy(pos);
+  }
 }
 
 ////////////////////////////////////////////////////////////////
@@ -163,13 +243,13 @@ scene.add(table);
 $("#table").click(function() {
   //mesh.geometry = new THREE.SphereGeometry( 50, 32, 32 );
   //mesh.material.color= new THREE.Color( 0xff0000 );
-  turn=!turn;
+  turn=1;
 });
 
 $("#chair").click(function() {
   //mesh.geometry = new THREE.BoxGeometry( 100, 20, 20 );
   //mesh.material.color= new THREE.Color( 0xffffff );
-  //turn=!turn;
+  turn=2;
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -324,6 +404,7 @@ function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
+
 
 
 </script>
